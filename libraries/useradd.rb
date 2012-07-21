@@ -2,7 +2,6 @@ class Chef
   class Provider
     class User 
       class Useradd < Chef::Provider::User
-        UNIVERSAL_OPTIONS = [[:comment, "-c"], [:gid, "-g"], [:password, "-p"], [:shell, "-s"], [:uid, "-u"]]
         
         def check_lock
           case node[:platform]
