@@ -69,7 +69,7 @@ class Chef
 
         def candidate_version
           return @candidate_version if @candidate_version
-          status = IO.popen(" pkgin search nginx") do |ver|
+          status = IO.popen(" pkgin search #{@new_resource.package_name}") do |ver|
             ver.each_line do |line|
               case line
               when /\w+-(\d+.\d+.\d+)/
