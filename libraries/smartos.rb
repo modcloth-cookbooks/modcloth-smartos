@@ -72,7 +72,7 @@ class Chef
           status = IO.popen(" pkgin search #{@new_resource.package_name}") do |ver|
             ver.each_line do |line|
               case line
-              when /\w+-(\d+.\d+.\d+)/
+              when /^#{@new_resource.package_name}-(\d+.\d+.\d+.*$)/
                 @candidate_version = $1
                 @new_resource.version($1)
                 Chef::Log.debug("#{@new_resource} #{status.inspect} XXXXXXXsetting install candidate version to #{@candidate_version}")
