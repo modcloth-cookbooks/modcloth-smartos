@@ -71,11 +71,12 @@ class Chef
           return @candidate_version if @candidate_version
           status = IO.popen(" pkgin search #{@new_resource.package_name}") do |ver|
             ver.each_line do |line|
+              Chef::Log.debug("XXXXXXPACKAGE TO INSTALL #{@new_resource.package_name} ")
               case line
-              when /^#{@new_resource.package_name}-(\d+.\d+.\d+.*$)/
+              when /^#{@new_resource.package_name}[.+]?-(.+?-?\d+.{1,}*$)/
                 @candidate_version = $1
                 @new_resource.version($1)
-                Chef::Log.debug("#{@new_resource} #{status.inspect} XXXXXXXsetting install candidate version to #{@candidate_version}")
+                
               end
             end
           end
@@ -88,9 +89,11 @@ class Chef
 
 
         def install_package(name, version)
-					Chef::Log.debug("#{@new_resource} XXXXXX installing package #{name}-#{version}")
+					
 					package = "#{name}-#{version}"
-          out = shell_out!("pkgin -y install #{package}", :env => nil)
+					Chef::Log.info("#{@new_resource} INSTALLING pkgin -y install #{package} WHAT!!!!")
+          out = shell_out!( "pkgin -y install #{package.split(' ').first}", :env => nil)
+
         end
 
 				def upgrade_package(name, version)
