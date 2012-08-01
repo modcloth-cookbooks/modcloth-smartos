@@ -8,6 +8,6 @@ when 'smartos'
   link "/opt/local/etc/sudoers" do
     to "/etc/sudoers"
     link_type :hard
-    only_if(File.exists?("/opt/local/etc/sudoers"))
+    only_if { File.exists?("/opt/local/etc/sudoers") }
   end
 end
