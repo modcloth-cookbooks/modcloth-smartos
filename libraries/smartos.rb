@@ -34,34 +34,27 @@ class Chef
         include Chef::Mixin::ShellOut
         attr_accessor :is_virtual_package
 
-
         def load_current_resource
-          Chef::Log.debug("XXXXXXXXX #{@new_resource.package_name} new resource name")
 					Chef::Log.debug("#{@new_resource} loading current resource")
 					@current_resource = Chef::Resource::Package.new(@new_resource.name)
 					@current_resource.package_name(@new_resource.package_name)
 					@current_resource.version(nil)
-					Chef::Log.debug("XXXXXXX #{@new_resource.package_name} new  resource")
-          ss = check_package_state(@new_resource.package_name)
-          Chef::Log.debug("XXXXXXX #{@current_resource.version} current version")
+          check_package_state(@new_resource.package_name)
 					@current_resource # modified by check_package_state
 				end
 				
 				def check_package_state(name)
-					Chef::Log.debug("#{@new_resource} XXXXXXXX checking package #{name}")
+					Chef::Log.debug("#{@new_resource} checking package #{name}")
 					# XXX
 					version = nil
-					#Check if is already installed
 					info = shell_out!("pkg_info -E \"#{name}*\"", :env => nil, :returns => [0,1])
 					
 					if info.stdout
 						version = info.stdout[/^#{@new_resource.package_name}-(.+)/, 1]
           end
-          Chef::Log.debug("#{version.class} XXXXXXXX checking version")
+
 					if !version
-						@current_resource.version(nil)
-						Chef::Log.debug("#{version.class} XXXXXXX it will try to install it")
-						
+						@current_resource.version(nil)						
 					else
 						@current_resource.version(version)
 					end
@@ -71,51 +64,37 @@ class Chef
           return @candidate_version if @candidate_version
           status = IO.popen(" pkgin search #{@new_resource.package_name}") do |ver|
             vers = []
-           
             ver.each_line do |line|
-             
               case line
               when /^#{@new_resource.package_name}[.+]?-(.+?-?\d+.{1,}*$)/
-                # push all versions into array
-                # sort array and by default pick newest version
                 vers << $1.to_s.split(' ').first
-                #@candidate_version = $1.split(' ').first
                 @candidate_version = vers.sort.last
-                @new_resource.version(vers.sort.last)
-                #@new_resource.version($1.split(' ').first)
-                
+                @new_resource.version(vers.sort.last)                
               end
             end
-            Chef::Log.info("VERSIONS AVAIL FOR SORTING: #{vers}")
-          end
-           Chef::Log.debug( "XXXXXXX#{$?}")
-          # unless $? == 0
-          #              raise Chef::Exceptions::Package, "pkginfo -l -d #{@new_resource.source} - #{status.inspect}!"
-          #           end
-           Chef::Log.info("XXXXXXCANDIDATEVERSION TO INSTALL #{@candidate_version} ")
+            Chef::Log.info("#{@new_resource.package_name} versions available [#{vers}]")
+          end          
+          Chef::Log.info("Installing #{@new_resource.package_name} #{@candidate_version} ")
           @candidate_version 
         end
-
 
         def install_package(name, version)
 					
 					package = "#{name}-#{version}"
-					Chef::Log.info("#{@new_resource} XXXXXINSTALLING pkgin -y install #{package}")
+					Chef::Log.info("#{@new_resource} pkgin -y install #{package}")
           out = shell_out!( "pkgin -y install #{package.split(' ').first}", :env => nil)
-
         end
 
 				def upgrade_package(name, version)
-					Chef::Log.debug("#{@new_resource} XXXXXXX upgrading package #{name}-#{version}")
+					Chef::Log.debug("#{@new_resource} upgrading package #{name}-#{version}")
 					install_package(name, version)
 				end
 
 				def remove_package(name, version)
-					Chef::Log.debug("#{@new_resource} XXXXX removing package #{name}-#{version}")
+					Chef::Log.debug("#{@new_resource} removing package #{name}-#{version}")
 					package = "#{name}-#{version}"
           out = shell_out!("pkgin -y remove #{package}", :env => nil)
 				end
-
       end
     end
   end
