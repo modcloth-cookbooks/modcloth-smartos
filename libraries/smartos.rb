@@ -70,28 +70,37 @@ class Chef
         def candidate_version
           return @candidate_version if @candidate_version
           status = IO.popen(" pkgin search #{@new_resource.package_name}") do |ver|
+            vers = []
+           
             ver.each_line do |line|
-              Chef::Log.debug("XXXXXXPACKAGE TO INSTALL #{@new_resource.package_name} ")
+             
               case line
               when /^#{@new_resource.package_name}[.+]?-(.+?-?\d+.{1,}*$)/
-                @candidate_version = $1
-                @new_resource.version($1)
+                # push all versions into array
+                # sort array and by default pick newest version
+                vers << $1.to_s.split(' ').first
+                #@candidate_version = $1.split(' ').first
+                @candidate_version = vers.sort.last
+                @new_resource.version(vers.sort.last)
+                #@new_resource.version($1.split(' ').first)
                 
               end
             end
+            Chef::Log.info("VERSIONS AVAIL FOR SORTING: #{vers}")
           end
            Chef::Log.debug( "XXXXXXX#{$?}")
           # unless $? == 0
           #              raise Chef::Exceptions::Package, "pkginfo -l -d #{@new_resource.source} - #{status.inspect}!"
           #           end
-          @candidate_version
+           Chef::Log.info("XXXXXXCANDIDATEVERSION TO INSTALL #{@candidate_version} ")
+          @candidate_version 
         end
 
 
         def install_package(name, version)
 					
 					package = "#{name}-#{version}"
-					Chef::Log.info("#{@new_resource} INSTALLING pkgin -y install #{package} WHAT!!!!")
+					Chef::Log.info("#{@new_resource} XXXXXINSTALLING pkgin -y install #{package}")
           out = shell_out!( "pkgin -y install #{package.split(' ').first}", :env => nil)
 
         end
