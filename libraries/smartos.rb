@@ -67,6 +67,8 @@ class Chef
             ver.each_line do |line|
               case line
               # when /^#{@new_resource.package_name}[.+]?-(.+?-?\d+.{1,}*$)/
+              # weird case for gtk2+ /^gtk2\+-([^ ]*)/
+              # this might work best for versions? /^#{@new_resource.package_name}-([^ ]*)/
               when /^#{@new_resource.package_name}-(\d+.{1,}*$)/
                 vers << $1.to_s.split(' ').first
                 @candidate_version = vers.sort.last
