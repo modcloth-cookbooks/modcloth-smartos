@@ -66,7 +66,8 @@ class Chef
             vers = []
             ver.each_line do |line|
               case line
-              when /^#{@new_resource.package_name}[.+]?-(.+?-?\d+.{1,}*$)/
+              # when /^#{@new_resource.package_name}[.+]?-(.+?-?\d+.{1,}*$)/
+              when /^#{@new_resource.package_name}-(\d+.{1,}*$)/
                 vers << $1.to_s.split(' ').first
                 @candidate_version = vers.sort.last
                 @new_resource.version(vers.sort.last)                
