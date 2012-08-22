@@ -65,6 +65,21 @@ class Chef
           end
         end
 
+        def useradd_options
+          case node[:platform]
+          when "smartos"
+            opts = ''
+            opts << " -m" if updating_home? && managing_home_dir?
+            # opts << " -r" if @new_resource.system
+            opts
+          else
+            opts = ''
+            opts << " -m" if updating_home? && managing_home_dir?
+            opts << " -r" if @new_resource.system
+            opts
+          end
+        end
+
       end
     end
   end
