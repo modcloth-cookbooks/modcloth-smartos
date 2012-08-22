@@ -6,5 +6,4 @@ when 'smartos'
     mode "0644"
     action :create
   end
-
 end
