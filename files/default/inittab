@@ -37,26 +37,30 @@
 #       svc:/system/console-login> exit
 #
 #ident  "@(#)inittab    1.42    05/06/10 SMI"
+
 smf::sysinit:/lib/svc/bin/svc.startd    >/dev/msglog 2<>/dev/msglog </dev/console
 p3:s1234:powerfail:/usr/sbin/shutdown -y -i5 -g0 >/dev/msglog 2<>/dev/msglog
 
-tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_largest_anon_port 65535 >/dev/null
 tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_smallest_anon_port 9000 >/dev/null
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_largest_anon_port 65535 >/dev/null
 
 tm::sysinit:/usr/sbin/ndd -set /dev/udp udp_smallest_anon_port 9000 >/dev/null
 tm::sysinit:/usr/sbin/ndd -set /dev/udp udp_largest_anon_port 65500 >/dev/null
 
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_ip_abort_cinterval 1000 >/dev/null
+
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_max_buf 4194304 >/dev/null
+
 # These should also be good values but we need to test them before uncommenting
-#tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_time_wait_interval 60000 >/dev/null
-#tm::sysinit:/usr/sbin/fndd -set /dev/tcp tcp_keepalive_interval 15000 >/dev/null
-#tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_fin_wait_2_flush_interval 67500 >/dev/null
-#tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_conn_req_max_q 16384 >/dev/null
-#tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_conn_req_max_q0 16384 >/dev/null
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_time_wait_interval 60000 >/dev/null
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_keepalive_interval 15000 >/dev/null
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_fin_wait_2_flush_interval 67500 >/dev/null
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_conn_req_max_q 16384 >/dev/null
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_conn_req_max_q0 16384 >/dev/null
 #tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_xmit_hiwat 400000 >/dev/null
 #tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_recv_hiwat 400000 >/dev/null
 #tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_cwnd_max 2097152 >/dev/null
-#tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_ip_abort_interval 20000 >/dev/null
+tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_ip_abort_interval 10000 >/dev/null
 #tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_rexmit_interval_initial 4000 >/dev/null
 #tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_rexmit_interval_max 10000 >/dev/null
 #tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_rexmit_interval_min 3000 >/dev/null
-#tm::sysinit:/usr/sbin/ndd -set /dev/tcp tcp_max_buf 4194304 >/dev/null
