@@ -39,6 +39,234 @@ class Chef
 
       def platforms
         @platforms ||= {
+          :mac_os_x => {
+            :default => {
+              :package => Chef::Provider::Package::Macports,
+              :service => Chef::Provider::Service::Macosx,
+              :user => Chef::Provider::User::Dscl,
+              :group => Chef::Provider::Group::Dscl
+            }
+          },
+          :mac_os_x_server => {
+            :default => {
+              :package => Chef::Provider::Package::Macports,
+              :service => Chef::Provider::Service::Macosx,
+              :user => Chef::Provider::User::Dscl,
+              :group => Chef::Provider::Group::Dscl
+            }
+          },
+          :freebsd => {
+            :default => {
+              :group   => Chef::Provider::Group::Pw,
+              :package => Chef::Provider::Package::Freebsd,
+              :service => Chef::Provider::Service::Freebsd,
+              :user    => Chef::Provider::User::Pw,
+              :cron    => Chef::Provider::Cron
+            }
+          },
+          :ubuntu   => {
+            :default => {
+              :package => Chef::Provider::Package::Apt,
+              :service => Chef::Provider::Service::Debian,
+              :cron => Chef::Provider::Cron,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :linaro   => {
+            :default => {
+              :package => Chef::Provider::Package::Apt,
+              :service => Chef::Provider::Service::Debian,
+              :cron => Chef::Provider::Cron,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :raspbian   => {
+            :default => {
+              :package => Chef::Provider::Package::Apt,
+              :service => Chef::Provider::Service::Debian,
+              :cron => Chef::Provider::Cron,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :linuxmint   => {
+            :default => {
+              :package => Chef::Provider::Package::Apt,
+              :service => Chef::Provider::Service::Upstart,
+              :cron => Chef::Provider::Cron,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :debian => {
+            :default => {
+              :package => Chef::Provider::Package::Apt,
+              :service => Chef::Provider::Service::Debian,
+              :cron => Chef::Provider::Cron,
+              :mdadm => Chef::Provider::Mdadm
+            },
+            "6.0" => {
+              :service => Chef::Provider::Service::Insserv
+            }
+          },
+          :xenserver   => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Yum,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :centos   => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Yum,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :amazon   => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Yum,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :scientific => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Yum,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :fedora   => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Yum,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :suse     => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Zypper,
+              :group => Chef::Provider::Group::Suse
+            }
+          },
+          :oracle  => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Yum,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :redhat   => {
+            :default => {
+              :service => Chef::Provider::Service::Redhat,
+              :cron => Chef::Provider::Cron,
+              :package => Chef::Provider::Package::Yum,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :gentoo   => {
+            :default => {
+              :package => Chef::Provider::Package::Portage,
+              :service => Chef::Provider::Service::Gentoo,
+              :cron => Chef::Provider::Cron,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :arch   => {
+            :default => {
+              :package => Chef::Provider::Package::Pacman,
+              :service => Chef::Provider::Service::Arch,
+              :cron => Chef::Provider::Cron,
+              :mdadm => Chef::Provider::Mdadm
+            }
+          },
+          :mswin => {
+            :default => {
+              :env =>  Chef::Provider::Env::Windows,
+              :service => Chef::Provider::Service::Windows,
+              :user => Chef::Provider::User::Windows,
+              :group => Chef::Provider::Group::Windows,
+              :mount => Chef::Provider::Mount::Windows
+            }
+          },
+          :mingw32 => {
+            :default => {
+              :env =>  Chef::Provider::Env::Windows,
+              :service => Chef::Provider::Service::Windows,
+              :user => Chef::Provider::User::Windows,
+              :group => Chef::Provider::Group::Windows,
+              :mount => Chef::Provider::Mount::Windows
+            }
+          },
+          :windows => {
+            :default => {
+              :env =>  Chef::Provider::Env::Windows,
+              :service => Chef::Provider::Service::Windows,
+              :user => Chef::Provider::User::Windows,
+              :group => Chef::Provider::Group::Windows,
+              :mount => Chef::Provider::Mount::Windows
+            }
+          },
+          :solaris  => {},
+          :openindiana => {
+            :default => {
+              :service => Chef::Provider::Service::Solaris,
+              :package => Chef::Provider::Package::Ips,
+              :cron => Chef::Provider::Cron::Solaris,
+              :group => Chef::Provider::Group::Usermod
+            }
+          },
+          :opensolaris => {
+            :default => {
+              :service => Chef::Provider::Service::Solaris,
+              :package => Chef::Provider::Package::Ips,
+              :cron => Chef::Provider::Cron::Solaris,
+              :group => Chef::Provider::Group::Usermod
+            }
+          },
+          :nexentacore => {
+            :default => {
+              :service => Chef::Provider::Service::Solaris,
+              :package => Chef::Provider::Package::Solaris,
+              :cron => Chef::Provider::Cron::Solaris,
+              :group => Chef::Provider::Group::Usermod
+            }
+          },
+          :omnios => {
+            :default => {
+              :service => Chef::Provider::Service::Solaris,
+              :package => Chef::Provider::Package::Ips,
+              :cron => Chef::Provider::Cron::Solaris,
+              :group => Chef::Provider::Group::Usermod
+            }
+          },
+          :solaris2 => {
+            :default => {
+              :service => Chef::Provider::Service::Solaris,
+              :package => Chef::Provider::Package::Ips,
+              :cron => Chef::Provider::Cron::Solaris,
+              :group => Chef::Provider::Group::Usermod
+            },
+            "5.9" => {
+              :service => Chef::Provider::Service::Solaris,
+              :package => Chef::Provider::Package::Solaris,
+              :cron => Chef::Provider::Cron::Solaris,
+              :group => Chef::Provider::Group::Usermod
+            },
+            "5.10" => {
+              :service => Chef::Provider::Service::Solaris,
+              :package => Chef::Provider::Package::Solaris,
+              :cron => Chef::Provider::Cron::Solaris,
+              :group => Chef::Provider::Group::Usermod
+            }
+          },
           :smartos => {
             :default => {
               :service => Chef::Provider::Service::Solaris,
@@ -46,7 +274,27 @@ class Chef
               :cron => Chef::Provider::Cron::Solaris,
               :group => Chef::Provider::Group::Usermod,
               :user => Chef::Provider::User::Smartos
-
+            }
+          },
+          :netbsd => {
+            :default => {
+              :service => Chef::Provider::Service::Freebsd,
+              :group => Chef::Provider::Group::Groupmod
+            }
+          },
+          :openbsd => {
+            :default => {
+              :group => Chef::Provider::Group::Usermod
+            }
+          },
+          :hpux => {
+            :default => {
+              :group => Chef::Provider::Group::Usermod
+            }
+          },
+          :aix => {
+            :default => {
+              :group => Chef::Provider::Group::Aix
             }
           },
           :default  => {
@@ -75,6 +323,185 @@ class Chef
           }
         }
       end
+
+      include Chef::Mixin::ParamsValidate
+
+      def find(name, version)
+        provider_map = platforms[:default].clone
+
+        name_sym = name
+        if name.kind_of?(String)
+          name.downcase!
+          name.gsub!(/\s/, "_")
+          name_sym = name.to_sym
+        end
+
+        if platforms.has_key?(name_sym)
+          if platforms[name_sym].has_key?(version)
+            Chef::Log.debug("Platform #{name.to_s} version #{version} found")
+            if platforms[name_sym].has_key?(:default)
+              provider_map.merge!(platforms[name_sym][:default])
+            end
+            provider_map.merge!(platforms[name_sym][version])
+          elsif platforms[name_sym].has_key?(:default)
+            provider_map.merge!(platforms[name_sym][:default])
+          end
+        else
+          Chef::Log.debug("Platform #{name} not found, using all defaults. (Unsupported platform?)")
+        end
+        provider_map
+      end
+
+      def find_platform_and_version(node)
+        platform = nil
+        version = nil
+
+        if node[:platform]
+          platform = node[:platform]
+        elsif node.attribute?("os")
+          platform = node[:os]
+        end
+
+        raise ArgumentError, "Cannot find a platform for #{node}" unless platform
+
+        if node[:platform_version]
+          version = node[:platform_version]
+        elsif node[:os_version]
+          version = node[:os_version]
+        elsif node[:os_release]
+          version = node[:os_release]
+        end
+
+        raise ArgumentError, "Cannot find a version for #{node}" unless version
+
+        return platform, version
+      end
+
+      def provider_for_resource(resource, action=:nothing)
+        node = resource.run_context && resource.run_context.node
+        raise ArgumentError, "Cannot find the provider for a resource with no run context set" unless node
+        provider = find_provider_for_node(node, resource).new(resource, resource.run_context)
+        provider.action = action
+        provider
+      end
+
+      def provider_for_node(node, resource_type)
+        raise NotImplementedError, "#{self.class.name} no longer supports #provider_for_node"
+        find_provider_for_node(node, resource_type).new(node, resource_type)
+      end
+
+      def find_provider_for_node(node, resource_type)
+        platform, version = find_platform_and_version(node)
+        provider = find_provider(platform, version, resource_type)
+      end
+
+      def set(args)
+        validate(
+          args,
+          {
+            :platform => {
+              :kind_of => Symbol,
+              :required => false,
+            },
+            :version => {
+              :kind_of => String,
+              :required => false,
+            },
+            :resource => {
+              :kind_of => Symbol,
+            },
+            :provider => {
+              :kind_of => [ String, Symbol, Class ],
+            }
+          }
+        )
+        if args.has_key?(:platform)
+          if args.has_key?(:version)
+            if platforms.has_key?(args[:platform])
+              if platforms[args[:platform]].has_key?(args[:version])
+                platforms[args[:platform]][args[:version]][args[:resource].to_sym] = args[:provider]
+              else
+                platforms[args[:platform]][args[:version]] = {
+                  args[:resource].to_sym => args[:provider]
+                }
+              end
+            else
+              platforms[args[:platform]] = {
+                args[:version] => {
+                  args[:resource].to_sym => args[:provider]
+                }
+              }
+            end
+          else
+            if platforms.has_key?(args[:platform])
+              if platforms[args[:platform]].has_key?(:default)
+                platforms[args[:platform]][:default][args[:resource].to_sym] = args[:provider]
+              else
+                platforms[args[:platform]] = { :default => { args[:resource].to_sym => args[:provider] } }
+              end
+            else
+              platforms[args[:platform]] = {
+                :default => {
+                  args[:resource].to_sym => args[:provider]
+                }
+              }
+            end
+          end
+        else
+          if platforms.has_key?(:default)
+            platforms[:default][args[:resource].to_sym] = args[:provider]
+          else
+            platforms[:default] = {
+              args[:resource].to_sym => args[:provider]
+            }
+          end
+        end
+      end
+
+      def find_provider(platform, version, resource_type)
+        pmap = Chef::Platform.find(platform, version)
+        provider_klass = explicit_provider(platform, version, resource_type) ||
+                         platform_provider(platform, version, resource_type) ||
+                         resource_matching_provider(platform, version, resource_type)
+
+        raise ArgumentError, "Cannot find a provider for #{resource_type} on #{platform} version #{version}" if provider_klass.nil?
+
+        provider_klass
+      end
+
+      def windows?
+        if RUBY_PLATFORM =~ /mswin|mingw|windows/
+          true
+        else
+          false
+        end
+      end
+
+      private
+
+        def explicit_provider(platform, version, resource_type)
+          resource_type.kind_of?(Chef::Resource) ? resource_type.provider : nil
+        end
+
+        def platform_provider(platform, version, resource_type)
+          pmap = Chef::Platform.find(platform, version)
+          rtkey = resource_type.kind_of?(Chef::Resource) ? resource_type.resource_name.to_sym : resource_type
+          pmap.has_key?(rtkey) ? pmap[rtkey] : nil
+        end
+
+        def resource_matching_provider(platform, version, resource_type)
+          if resource_type.kind_of?(Chef::Resource)
+            begin
+              Chef::Provider.const_get(resource_type.class.to_s.split('::').last)
+            rescue NameError
+              nil
+            end
+          else
+            nil
+          end
+        end
+
     end
+
   end
 end
