@@ -112,6 +112,9 @@ class Chef
       class Smartos < Chef::Provider::User::Useradd
         UNIVERSAL_OPTIONS = [[:comment, "-c"], [:gid, "-g"], [:password, "-p"], [:shell, "-s"], [:uid, "-u"]]
 
+        # May want to change default group from 'other' to 'username' to make smartos behavior similar to linux default.
+        # this would involve testing for gid and if not found creating group with username instead of defaulting to 'other'
+
         def create_user
           command = compile_command("useradd") do |useradd|
             useradd << universal_options
@@ -119,6 +122,12 @@ class Chef
           end
           Chef::Log.info(command)
           run_command(:command => command)
+
+          # SmartOS locks new users by default until password is set
+          # unlock the account by default because password is set by chef
+          if check_lock
+            unlock_user
+          end
         end
 
         def manage_user
