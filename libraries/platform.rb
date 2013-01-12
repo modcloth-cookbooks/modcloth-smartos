@@ -270,7 +270,7 @@ class Chef
           :smartos => {
             :default => {
               :service => Chef::Provider::Service::Solaris,
-              :package => Chef::Provider::Package::SmartOS,
+              :package => Chef::Provider::Package::Pkgsrc,
               :cron => Chef::Provider::Cron::Solaris,
               :group => Chef::Provider::Group::Usermod,
               :user => Chef::Provider::User::Smartos
