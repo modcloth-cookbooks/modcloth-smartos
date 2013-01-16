@@ -121,7 +121,7 @@ class Chef
             useradd << useradd_options
           end
           Chef::Log.info(command)
-          run_command(:command => command)
+          shell_out!(command, :env => nil)
 
           # SmartOS locks new users by default until password is set
           # unlock the account by default because password is set by chef
@@ -134,14 +134,14 @@ class Chef
           command = compile_command("usermod") do |u|
             u << universal_options
           end
-          run_command(:command => command)
+          shell_out!(command, :env => nil)
         end
 
         def remove_user
           command = "userdel"
           command << " -r" if managing_home_dir?
           command << " #{@new_resource.username}"
-          run_command(:command => command)
+          shell_out!(command, :env => nil)
         end
 
         def check_lock
@@ -179,11 +179,11 @@ class Chef
         end
         
         def lock_user
-          run_command(:command => "usermod -L #{@new_resource.username}")
+          shell_out!("usermod -L #{@new_resource.username}", :env => nil)
         end
         
         def unlock_user
-          run_command(:command => "passwd -u #{@new_resource.username}")
+          shell_out!("passwd -u #{@new_resource.username}", :env => nil)
         end
 
         def compile_command(base_command)
