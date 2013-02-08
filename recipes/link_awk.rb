@@ -1,3 +1,5 @@
+# During the dark days of the great GNU v. System V wars.... three awks were forged... each more powerful than the last.
+
 case node['platform']
 when 'smartos'
   link "/opt/local/bin/awk" do
