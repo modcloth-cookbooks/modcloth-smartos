@@ -3,6 +3,15 @@ class Chef
     class User 
       class Useradd < Chef::Provider::User
 
+        def create_user
+          command = compile_command("useradd") do |useradd|
+            useradd << universal_options
+            useradd << useradd_options
+          end
+          run_command(:command => command)
+          action_unlock
+        end
+
         def compare_user
           changed = []
           changed << [ :comment, :home, :shell, :password ].keep_if do |user_attrib|
@@ -15,8 +24,6 @@ class Chef
 
           changed.flatten!.any?
         end
-
-        private
 
         def check_lock
           case node[:platform]
@@ -68,10 +75,17 @@ class Chef
         end
 
         def lock_user
-          run_command(:command => "usermod -L #{@new_resource.username}")
+          return if check_lock
+          case node[:platform]
+          when "smartos"
+            run_command(:command => "passwd -l #{@new_resource.username}")
+          else
+            run_command(:command => "usermod -L #{@new_resource.username}")
+          end
         end
 
         def unlock_user
+          return unless check_lock
           case node[:platform]
           when "smartos"
             run_command(:command => "passwd -u #{@new_resource.username}")
