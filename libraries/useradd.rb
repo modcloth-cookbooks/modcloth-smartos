@@ -2,7 +2,22 @@ class Chef
   class Provider
     class User 
       class Useradd < Chef::Provider::User
-        
+
+        def compare_user
+          changed = []
+          changed << [ :comment, :home, :shell, :password ].keep_if do |user_attrib|
+            !@new_resource.send(user_attrib).nil? && @new_resource.send(user_attrib) != @current_resource.send(user_attrib)
+          end
+
+          changed << [ :uid, :gid ].keep_if do |user_attrib|
+            !@new_resource.send(user_attrib).nil? && @new_resource.send(user_attrib).to_i != @current_resource.send(user_attrib).to_i
+          end
+
+          changed.flatten!.any?
+        end
+
+        private
+
         def check_lock
           case node[:platform]
           when "smartos"
@@ -51,11 +66,11 @@ class Chef
 
           @locked
         end
-        
+
         def lock_user
           run_command(:command => "usermod -L #{@new_resource.username}")
         end
-        
+
         def unlock_user
           case node[:platform]
           when "smartos"
