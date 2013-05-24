@@ -1,3 +1,7 @@
+# O HAI! I NEED TEH CPU AND TEH MEMORY STATZ!
+
+include_recipe "ohai"
+
 template "#{node['ohai']['plugin_path']}/cpu.rb" do
   source "plugins/cpu.rb.erb"
   owner "root"
@@ -11,5 +15,3 @@ template "#{node['ohai']['plugin_path']}/memory.rb" do
   group "root"
   mode 0755
 end
-
-include_recipe "ohai"
