@@ -2,7 +2,7 @@ class Chef
   class Provider
     class Group
       class Usermod < Chef::Provider::Group::Groupadd
-       
+
         def modify_group_members
           case node[:platform]
           when "openbsd", "netbsd", "aix", "solaris2", "smartos"

@@ -1,11 +1,8 @@
-#
 # Cookbook Name:: smartos
 # Recipe:: default
 #
-# Copyright 2012, YOUR_COMPANY_NAME
-#
-# All rights reserved - Do Not Redistribute
-#
+# Copyright 2013, ModCloth, Inc.
+# Licensed MIT
 
 include_recipe "smartos::link_awk"
 include_recipe "smartos::link_grep"

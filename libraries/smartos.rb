@@ -42,19 +42,19 @@ class Chef
           check_package_state(@new_resource.package_name)
           @current_resource # modified by check_package_state
         end
-        
+
         def check_package_state(name)
           Chef::Log.debug("#{@new_resource} checking package #{name}")
           # XXX
           version = nil
           info = shell_out!("pkg_info -E \"#{name}*\"", :env => nil, :returns => [0,1])
-          
+
           if info.stdout
             version = info.stdout[/^#{@new_resource.package_name}-(.+)/, 1]
           end
 
           if !version
-            @current_resource.version(nil)            
+            @current_resource.version(nil)
           else
             @current_resource.version(version)
           end
@@ -72,17 +72,17 @@ class Chef
               when /^#{@new_resource.package_name}-(\d+.{1,}*$)/
                 vers << $1.to_s.split(' ').first
                 @candidate_version = vers.sort.last
-                @new_resource.version(vers.sort.last)                
+                @new_resource.version(vers.sort.last)
               end
             end
             Chef::Log.info("#{@new_resource.package_name} versions available [#{vers}]")
-          end          
+          end
           Chef::Log.info("Installing #{@new_resource.package_name} #{@candidate_version} ")
-          @candidate_version 
+          @candidate_version
         end
 
         def install_package(name, version)
-          
+
           package = "#{name}-#{version}"
           Chef::Log.info("#{@new_resource} pkgin -y install #{package}")
           out = shell_out!( "pkgin -y install #{package.split(' ').first}", :env => nil)
@@ -108,7 +108,7 @@ require 'chef/provider/user/useradd'
 
 class Chef
   class Provider
-    class User 
+    class User
       class Smartos < Chef::Provider::User::Useradd
         UNIVERSAL_OPTIONS = [[:comment, "-c"], [:gid, "-g"], [:password, "-p"], [:shell, "-s"], [:uid, "-u"]]
 
@@ -177,11 +177,11 @@ class Chef
 
           @locked
         end
-        
+
         def lock_user
           run_command(:command => "usermod -L #{@new_resource.username}")
         end
-        
+
         def unlock_user
           run_command(:command => "passwd -u #{@new_resource.username}")
         end
