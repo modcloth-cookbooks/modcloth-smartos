@@ -7,3 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "smartos::link_awk"
+include_recipe "smartos::link_grep"
+include_recipe "smartos::link_sudo"
+include_recipe "smartos::ohai_plugins"
