@@ -1,3 +1,9 @@
+# Cookbook Name:: smartos
+# Recipe:: link_sudo
+#
+# Copyright 2013, ModCloth, Inc.
+# Licensed MIT
+#
 # Joyent pkgsrc puts stuff in the wrong directory (/opt/local/etc).  
 # We're working around this by linking /etc/sudoers to /opt/local/etc/sudoers 
 # until they correct this as this is the least destructive way to move forward.
