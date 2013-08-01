@@ -1,3 +1,9 @@
+# Cookbook Name:: smartos
+# Recipe:: ohai_plugins
+#
+# Copyright 2013, ModCloth, Inc.
+# Licensed MIT
+#
 # O HAI! I NEED TEH CPU AND TEH MEMORY STATZ!
 
 include_recipe "ohai"

@@ -1,4 +1,11 @@
-# During the dark days of the great GNU v. System V wars.... three awks were forged... each more powerful than the last.
+# Cookbook Name:: smartos
+# Recipe:: link_awk
+#
+# Copyright 2013, ModCloth, Inc.
+# Licensed MIT
+#
+# During the dark days of the great GNU v. System V wars.... three awks were
+# forged... each more powerful than the last.
 
 case node['platform']
 when 'smartos'
