@@ -1,3 +1,4 @@
+name             'smartos'
 maintainer       "ModCloth, Inc."
 maintainer_email "platformsphere+smartos-cookbook@modcloth.com"
 license          "MIT"
